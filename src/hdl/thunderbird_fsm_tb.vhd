@@ -107,21 +107,37 @@ begin
         w_reset <= '1';
         wait for k_clk_period*1;
             assert w_o_L  = "000" report "bad reset" severity failure;
-            assert w_o_L  = "000" report "bad reset" severity failure;
+            assert w_o_R  = "000" report "bad reset" severity failure;
           
 		w_reset <= '0';
             wait for k_clk_period*1;
-          
+      
+        assert w_o_L = "000" report "bad" severity failure;
 		w_left <= '1'; wait for k_clk_period;
-		    assert w_o_L = "101" report "bad left turn signal" severity failure;
+		    assert w_o_L = "001" report "bad left turn signal" severity failure;
+		    wait for k_clk_period;
+		    assert w_o_L = "011" report "bad left turn signal progression" severity failure;
+		    wait for k_clk_period;
+		    assert w_o_L = "111" report "bad left turn signal progression" severity failure;
+		    wait for k_clk_period;
+		    assert w_o_L = "000" report "bad left turn signal progression" severity failure;
+	
+	
+        assert w_o_R = "000" report "bad" severity failure;
+        w_right <= '1'; w_left <='0'; wait for k_clk_period;
+           assert w_o_R = "001" report "bad right turn signal" severity failure;
+           wait for k_clk_period;
+           assert w_o_R = "011" report "bad right turn signal progression" severity failure;
+           wait for k_clk_period;
+           assert w_o_R = "111" report "bad right turn signal progression" severity failure;
+           wait for k_clk_period;
+           assert w_o_R = "000" report "bad right turn signal progression" severity failure;	  
 		  
-        w_left <= '1'; w_right <= '1';
-            assert w_o_L = "001" report "bad caution lights" severity failure;
-            assert w_o_R = "001" report "bad caution lights" severity failure;
-       
-       w_right <= '1'; wait for k_clk_period;
-            assert w_o_R = "010" report "bad left turn signal" severity failure;
+        w_left <= '1'; w_right <= '1'; wait for k_clk_period;
+            assert w_o_L = "111" report "bad caution lights" severity failure;
+            assert w_o_R = "111" report "bad caution lights" severity failure;
 
+            
         
         
         
